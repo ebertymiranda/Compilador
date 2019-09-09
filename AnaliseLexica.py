@@ -6,8 +6,10 @@ numeroColuna = 0
 arquivo = open('fatorial.txt', 'r')
 leitura = arquivo.readlines()
 linhasdecomando = []
-
 tokens = []
+variavel = " "
+modoTexto = False
+
 
 palavrasreservadas = ['int', 'agora', 'agoraquando', 'enquanto', 'tchapa', 'cruz', 'leia', 'ixpia']
 
@@ -21,7 +23,8 @@ for linha in linhasdecomando:
         numeroColuna += 1
 
         if re.search("[a-zA-Z]", coluna):
-
+            if coluna not in palavrasreservadas:
+               tokens.append('tk_variavel')
             if 'tchapa' == coluna:
                 tokens.append('tk_topo')
             if 'cruz' == coluna:
@@ -33,18 +36,18 @@ for linha in linhasdecomando:
             if 'ixpia' == coluna:
                 tokens.append('tk_sai')
             if 'int' == coluna:
-
                 tokens.append('tk_int')
             if 'agora' == coluna:
                 tokens.append('tk_se')
             if 'agoraquando' == coluna:
                 tokens.append('tk_senao')
 
-            if coluna not in palavrasreservadas:
-               tokens.append('tk_variavel')
-        elif re.search("[0-9+]", coluna):
-            tokens.append('tk_numeroInteiro')
-        elif re.search("[= | > | < | ; | # | <> | ( | ) | [ | \] ]", coluna):
+
+        elif re.search("[0-9]", coluna):
+            tokens.append('tk_numeroPos')
+        elif re.search("-[0-9]", coluna):
+            tokens.append('tk_numeroNeg')
+        elif re.search("[= | > | < | ; | # | <> | ( | ) | [ | \] |\- | + | ++ |\--]", coluna):
             if(coluna == '='):
                 tokens.append('tk_igual')
             if(coluna == '>'):
@@ -65,7 +68,30 @@ for linha in linhasdecomando:
                 tokens.append('tk_blocoi')
             if(coluna == ']'):
                 tokens.append('tk_blocof')
+            if(coluna == '++'):
+                tokens.append('tk_incremento')
+            if(coluna == '+'):
+                tokens.append('tk_adicao')
+            if(coluna == '--'):
+                tokens.append('tk_decremento')
+            if(coluna == '-'):
+                tokens.append('tk_subtração')
+
+        elif coluna.startswith("\"") == True:
+            numeroColuna = linha.index(coluna)
+            modoTexto = True
+            variavel += " " + coluna
+            while modoTexto:
+                if coluna.endswith("\""):
+                    variavel += coluna
+                    modoTexto = False
+                else:
+                    variavel += coluna
+                    numeroColuna += 1
 print(tokens)
+
+
+
 
 
 
