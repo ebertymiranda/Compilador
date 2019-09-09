@@ -1,0 +1,13 @@
+tchapa
+
+int f = 1 ;
+
+   enquanto ( n > 1 ) [
+          f = f * n ;
+          n -- ;
+]
+
+ixpia ( "n" ) ;
+
+
+cruz
