@@ -7,6 +7,8 @@ arquivo = open('fatorial.txt', 'r')
 leitura = arquivo.readlines()
 linhasdecomando = []
 tokens = []
+
+
 variavel = " "
 modoTexto = False
 
@@ -20,27 +22,27 @@ for line in leitura:
 for linha in linhasdecomando:
     numeroLinha += 1
     for coluna in linha:
-        numeroColuna += 1
+        numeroColuna = linha.index(coluna)
+        
 
         if re.search("[a-zA-Z]", coluna):
-            if coluna not in palavrasreservadas:
-               tokens.append('tk_variavel')
-            if 'tchapa' == coluna:
-                tokens.append('tk_topo')
-            if 'cruz' == coluna:
-                tokens.append('tk_rodape')
-            if 'enquanto' == coluna:
-                tokens.append('tk_enquanto')
-            if 'leia' == coluna:
-                tokens.append('tk_entra')
-            if 'ixpia' == coluna:
-                tokens.append('tk_sai')
-            if 'int' == coluna:
-                tokens.append('tk_int')
-            if 'agora' == coluna:
-                tokens.append('tk_se')
-            if 'agoraquando' == coluna:
-                tokens.append('tk_senao')
+            
+            if (coluna == 'tchpa'):
+                tokens.append(['tk_topo', coluna, numeroLinha, numeroColuna])
+            if (coluna == 'cruz'):
+                tokens.append(['tk_rodape', coluna, numeroLinha, numeroColuna])
+            if (coluna == 'enquanto'):
+                tokens.append(['tk_enquanto', coluna, numeroLinha, numeroColuna])
+            if (coluna == 'leia'):
+                tokens.append(['tk_entra',  coluna, numeroLinha, numeroColuna])
+            if (coluna == 'ixpia'):
+                tokens.append(['tk_sai', coluna, numeroLinha, numeroColuna])
+            if (coluna == 'int'):
+                tokens.append(['tk_int', coluna, numeroLinha, numeroColuna])
+            if (coluna == 'agora'):
+                tokens.append(['tk_se', coluna, numeroLinha, numeroColuna])
+            if (coluna == 'agoraquando'):
+                tokens.append(['tk_senao', coluna, numeroLinha, numeroColuna])
 
 
         elif re.search("[0-9]", coluna):
@@ -49,50 +51,51 @@ for linha in linhasdecomando:
             tokens.append('tk_numeroNeg')
         elif re.search("[= | > | < | ; | # | <> | ( | ) | [ | \] |\- | + | ++ |\--]", coluna):
             if(coluna == '='):
-                tokens.append('tk_igual')
+                tokens.append(['tk_igual', coluna, numeroLinha, numeroColuna])
             if(coluna == '>'):
-                tokens.append('tk_maior')
+                tokens.append(['tk_maior', coluna, numeroLinha, numeroColuna])
             if(coluna == '<'):
-                tokens.append('tk_menor')
+                tokens.append(['tk_menor', coluna, numeroLinha, numeroColuna])
             if(coluna == ';'):
-                tokens.append('tk_fim')
+                tokens.append(['tk_fim', coluna, numeroLinha, numeroColuna])
             if(coluna == '#'):
-                tokens.append('tk_comparar')
+                tokens.append(['tk_comparar', coluna, numeroLinha, numeroColuna])
             if(coluna == '<>'):
-                tokens.append('tk_diferente')
+                tokens.append(['tk_diferente', coluna, numeroLinha, numeroColuna])
             if(coluna == '('):
-                tokens.append('tk_abre')
+                tokens.append(['tk_abre', coluna, numeroLinha, numeroColuna])
             if(coluna == ')'):
-                tokens.append('tk_fecha')
+                tokens.append(['tk_fecha', coluna, numeroLinha, numeroColuna])
             if(coluna == '['):
-                tokens.append('tk_blocoi')
+                tokens.append(['tk_blocoi', coluna, numeroLinha, numeroColuna])
             if(coluna == ']'):
-                tokens.append('tk_blocof')
+                tokens.append(['tk_blocof', coluna, numeroLinha, numeroColuna])
             if(coluna == '++'):
-                tokens.append('tk_incremento')
+                tokens.append(['tk_incremento', coluna, numeroLinha, numeroColuna])
             if(coluna == '+'):
-                tokens.append('tk_adicao')
+                tokens.append(['tk_adicao', coluna, numeroLinha, numeroColuna])
             if(coluna == '--'):
-                tokens.append('tk_decremento')
+                tokens.append(['tk_decremento', coluna, numeroLinha, numeroColuna])
             if(coluna == '-'):
-                tokens.append('tk_subtração')
+                tokens.append(['tk_subtracao', coluna, numeroLinha, numeroColuna])
+            if(coluna == '/'):
+                 tokens.append(['tk_divisao', coluna, numeroLinha, numeroColuna])
+            if(coluna == '*'):
+                tokens.append(['tk_multiplicacao', coluna, numeroLinha, numeroColuna])
 
-        elif coluna.startswith("\"") == True:
-            numeroColuna = linha.index(coluna)
-            modoTexto = True
-            variavel += " " + coluna
-            while modoTexto:
-                if coluna.endswith("\""):
-                    variavel += coluna
-                    modoTexto = False
-                else:
-                    variavel += coluna
-                    numeroColuna += 1
+        #elif coluna.startswith("\"") == True:
+        #    numeroColuna = linha.index(coluna)
+        #    modoTexto = True
+        #    variavel = variavel + " " + coluna
+        
+        #    while modoTexto:
+        #        if coluna.endswith("\""):
+        #            variavel = variavel + " " + coluna
+        #            modoTexto = False
+        #        else:
+        #            variavel = variavel + coluna
+        #            numeroColuna += 1
+        #tokens.append("string")
 print(tokens)
-
-
-
-
-
-
+        
 
