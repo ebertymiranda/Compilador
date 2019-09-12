@@ -24,21 +24,23 @@ for linha in linhasdecomando:
     for lexema in linha:
         numeroColuna = linha.index(lexema)
 
-        if lexema.startswith("\"") == True:
-            numeroColuna = linha.index(lexema)
-            modoTexto = True
-            variavel = variavel + " " + lexema
+        #if lexema.startswith("\"") == True:
+        #    numeroColuna = linha.index(lexema)
+        #    modoTexto = True
+        #    variavel = variavel + " " + lexema
 
-            while modoTexto:
-                if lexema.endswith("\""):
-                    variavel = variavel + " " + lexema
+        #    while modoTexto:
+        #       if lexema.endswith("\""):
+        #           variavel = variavel + " " + lexema
 
-                    modoTexto = False
-                else:
-                    variavel = variavel + " " + lexema
-
-                    numeroColuna += 1
-                tokens.append(["tk_string", variavel, numeroLinha, numeroColuna])
+        #           modoTexto = False
+        #       else:
+        #           variavel = variavel + " " + lexema
+        #           numeroColuna += 1
+        #           tokens.append(["tk_string", variavel, numeroLinha, numeroColuna])
+        #else:
+        if re.search(r'\"(.+?)\"', lexema):
+            tokens.append(['string', lexema, numeroLinha, numeroColuna])
         else:
 
             if re.search("[a-zA-Z]", lexema):
@@ -67,6 +69,7 @@ for linha in linhasdecomando:
                                             if (lexema == 'agoraquando'):
                                                 tokens.append(['tk_senao', lexema, numeroLinha, numeroColuna])
                                             else:
+
                                                 if lexema not in palavrasreservadas:
                                                     tokens.append(['tk_variavel', lexema, numeroLinha, numeroColuna])
 
