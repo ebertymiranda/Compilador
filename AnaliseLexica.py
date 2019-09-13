@@ -13,8 +13,6 @@ variavel = " "
 modoTexto = False
 
 
-palavrasreservadas = ['int', 'agora', 'agoraquando', 'enquanto', 'tchapa', 'cruz', 'leia', 'ixpia']
-
 for line in leitura:
     line = line.strip().split(' ')
     linhasdecomando.append(line)
@@ -39,96 +37,70 @@ for linha in linhasdecomando:
         #           numeroColuna += 1
         #           tokens.append(["tk_string", variavel, numeroLinha, numeroColuna])
         #else:
-        if re.search(r'\"(.+?)\"', lexema):
-            tokens.append(['string', lexema, numeroLinha, numeroColuna])
-        else:
-
-            if re.search("[a-zA-Z]", lexema):
-
+        if re.match("[A\"\.\"\b]+", lexema):
+            tokens.append(['tk_string', lexema, numeroLinha, numeroColuna])
+        elif re.match("[a-zA-Z]+", lexema):
                 if (lexema == 'tchpa'):
                     tokens.append(['tk_topo', lexema, numeroLinha, numeroColuna])
+                elif (lexema == 'cruz'):
+                    tokens.append(['tk_rodape', lexema, numeroLinha, numeroColuna])
+                elif (lexema == 'enquanto'):
+                    tokens.append(['tk_enquanto', lexema, numeroLinha, numeroColuna])
+                elif (lexema == 'leia'):
+                    tokens.append(['tk_entra', lexema, numeroLinha, numeroColuna])
+                elif (lexema == 'ixpia'):
+                    tokens.append(['tk_sai', lexema, numeroLinha, numeroColuna])
+                elif (lexema == 'int'):
+                    tokens.append(['tk_int', lexema, numeroLinha, numeroColuna])
+                elif (lexema == 'agora'):
+                    tokens.append(['tk_se', lexema, numeroLinha, numeroColuna])
+                elif (lexema == 'agoraquando'):
+                    tokens.append(['tk_senao', lexema, numeroLinha, numeroColuna])
                 else:
-                    if (lexema == 'cruz'):
-                        tokens.append(['tk_rodape', lexema, numeroLinha, numeroColuna])
-                    else:
-                        if (lexema == 'enquanto'):
-                            tokens.append(['tk_enquanto', lexema, numeroLinha, numeroColuna])
-                        else:
-                            if (lexema == 'leia'):
-                                tokens.append(['tk_entra', lexema, numeroLinha, numeroColuna])
-                            else:
-                                if (lexema == 'ixpia'):
-                                    tokens.append(['tk_sai', lexema, numeroLinha, numeroColuna])
-                                else:
-                                    if (lexema == 'int'):
-                                        tokens.append(['tk_int', lexema, numeroLinha, numeroColuna])
-                                    else:
-                                        if (lexema == 'agora'):
-                                            tokens.append(['tk_se', lexema, numeroLinha, numeroColuna])
-                                        else:
-                                            if (lexema == 'agoraquando'):
-                                                tokens.append(['tk_senao', lexema, numeroLinha, numeroColuna])
-                                            else:
-
-                                                if lexema not in palavrasreservadas:
-                                                    tokens.append(['tk_variavel', lexema, numeroLinha, numeroColuna])
+                    tokens.append(['tk_variavel', lexema, numeroLinha, numeroColuna])
 
 
 
-            elif re.search("-[0-9]", lexema):
+
+        elif re.match("-[0-9]", lexema):
                 tokens.append(['tk_numeroNeg', lexema, numeroLinha, numeroColuna])
-            elif re.search("[0-9]", lexema):
-                tokens.append(['tk_numeroPos', lexema, numeroLinha, numeroColuna])
-            elif re.search("[= | > | < | ; | # | <> | ( | ) | [ | \] |\- | + | ++ |* |/ |\--]", lexema):
-                if(lexema == '='):
-                    tokens.append(['tk_igual', lexema, numeroLinha, numeroColuna])
-                else:
-                    if(lexema == '>'):
-                        tokens.append(['tk_maior', lexema, numeroLinha, numeroColuna])
-                    else:
-                        if(lexema == '<'):
-                            tokens.append(['tk_menor', lexema, numeroLinha, numeroColuna])
-                        else:
-                            if(lexema == ';'):
-                                tokens.append(['tk_fim', lexema, numeroLinha, numeroColuna])
-                            else:
-                                if(lexema == '#'):
-                                    tokens.append(['tk_comparar', lexema, numeroLinha, numeroColuna])
-                                else:
-                                    if(lexema == '<>'):
-                                        tokens.append(['tk_diferente', lexema, numeroLinha, numeroColuna])
-                                    else:
-                                        if(lexema == '('):
-                                            tokens.append(['tk_abre', lexema, numeroLinha, numeroColuna])
-                                        else:
-                                            if(lexema == ')'):
-                                                tokens.append(['tk_fecha', lexema, numeroLinha, numeroColuna])
-                                            else:
-                                                if(lexema == '['):
-                                                    tokens.append(['tk_blocoi', lexema, numeroLinha, numeroColuna])
-                                                else:
-                                                    if(lexema == ']'):
-                                                        tokens.append(['tk_blocof', lexema, numeroLinha, numeroColuna])
-                                                    else:
-                                                        if(lexema == '++'):
-                                                            tokens.append(['tk_incremento', lexema, numeroLinha, numeroColuna])
-                                                        else:
-                                                            if(lexema == '+'):
-                                                                tokens.append(['tk_adicao', lexema, numeroLinha, numeroColuna])
-                                                            else:
-                                                                if(lexema == '--'):
-                                                                    tokens.append(['tk_decremento', lexema, numeroLinha, numeroColuna])
-                                                                else:
-                                                                    if(lexema == '-'):
-                                                                        tokens.append(['tk_subtracao', lexema, numeroLinha, numeroColuna])
-                                                                    else:
-                                                                        if(lexema == '/'):
-                                                                             tokens.append(['tk_divisao', lexema, numeroLinha, numeroColuna])
-                                                                        else:
-                                                                            if(lexema == '*'):
-                                                                                tokens.append(['tk_multiplicacao', lexema, numeroLinha, numeroColuna])
-            else:
-                tokens.append(['erro lexico' ,lexema, numeroLinha, numeroColuna])
+        elif re.match("[0-9]", lexema):
+            tokens.append(['tk_numeroPos', lexema, numeroLinha, numeroColuna])
+        elif re.match("[= | > | < | ; | # | <> | ( | ) | [ | \] |\- | + | ++ |* |/ | . |\--]", lexema):
+            if(lexema == '='):
+                tokens.append(['tk_igual', lexema, numeroLinha, numeroColuna])
+            elif(lexema == '>'):
+                tokens.append(['tk_maior', lexema, numeroLinha, numeroColuna])
+            elif(lexema == '<'):
+                tokens.append(['tk_menor', lexema, numeroLinha, numeroColuna])
+            elif(lexema == ';'):
+                tokens.append(['tk_fim', lexema, numeroLinha, numeroColuna])
+            elif(lexema == '#'):
+                tokens.append(['tk_comparar', lexema, numeroLinha, numeroColuna])
+            elif(lexema == '<>'):
+                tokens.append(['tk_diferente', lexema, numeroLinha, numeroColuna])
+            elif(lexema == '('):
+                tokens.append(['tk_abre', lexema, numeroLinha, numeroColuna])
+            elif(lexema == ')'):
+                tokens.append(['tk_fecha', lexema, numeroLinha, numeroColuna])
+            elif(lexema == '['):
+                tokens.append(['tk_blocoi', lexema, numeroLinha, numeroColuna])
+            elif(lexema == ']'):
+                tokens.append(['tk_blocof', lexema, numeroLinha, numeroColuna])
+            elif(lexema == '++'):
+                tokens.append(['tk_incremento', lexema, numeroLinha, numeroColuna])
+            elif(lexema == '+'):
+                tokens.append(['tk_adicao', lexema, numeroLinha, numeroColuna])
+            elif(lexema == '--'):
+                tokens.append(['tk_decremento', lexema, numeroLinha, numeroColuna])
+            elif(lexema == '-'):
+                tokens.append(['tk_subtracao', lexema, numeroLinha, numeroColuna])
+            elif(lexema == '/'):
+                tokens.append(['tk_divisao', lexema, numeroLinha, numeroColuna])
+            elif(lexema == '*'):
+                tokens.append(['tk_multiplicacao', lexema, numeroLinha, numeroColuna])
+        else:
+            tokens.append(['Erro lexico', lexema, numeroLinha, numeroColuna])
 
 
 for printa in tokens:
