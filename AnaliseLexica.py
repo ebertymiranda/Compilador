@@ -4,7 +4,7 @@ argumento = sys.argv
 numeroLinha = 0
 numeroColuna = 0
 
-arquivo = open('fatorial.txt', 'r')
+arquivo = open(argumento[1], 'r')
 leitura = arquivo.readlines()
 linhasdecomando = []
 tokens = []
@@ -114,6 +114,6 @@ for linha in linhasdecomando:
                 tokens.append(['Erro lexico', lexema, numeroLinha, numeroColuna])
 
 for mostra in tokens:
-    if argumento[1] == '-lt':
+    if argumento[2] == '-lt':
         print(mostra)
 
