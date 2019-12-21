@@ -1,15 +1,20 @@
 tchapa
- -9
 
+int a = 50 ;
+int b = 30 ;
+int c = 0 ;
 
-int f = 1 ;
+agora ( a < b ) [
 
-   enquanto ( n > 1 ) [
-          f = f * n ;
-          n -- ;
+c = b
+
 ]
 
-ixpia ( "n" ) ;
+agoraquando [
+
+c = a
+
+]
 
 
 cruz

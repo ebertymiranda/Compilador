@@ -1,0 +1,2 @@
+PROGRAMA tk_topo 0
+LISTA_COMANDO tk_rodape 2
